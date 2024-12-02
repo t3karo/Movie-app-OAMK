@@ -1,9 +1,8 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { insertUser, selectUserByEmail } from "../models/User1.js";
+import { insertUser, selectUserByEmail, deleteUserByEmail } from "../models/User1.js";
 import { ApiError } from "../helpers/ApiError1.js";
 const {sign} = jwt
-
 
 const postRegistration = async(req,res,next) => {
     try {
@@ -69,4 +68,28 @@ const postLogin = async(req,res,next) => {
     }
 }
 
-export {postRegistration, postLogin}
+const deleteAccount = async (req, res, next) => {
+    try {
+        const userEmail = req.user?.email;
+        if (!userEmail) {
+            return next(new ApiError("Unauthorized access", 401));
+        }
+
+        const userFromDb = await selectUserByEmail(userEmail);
+        if (userFromDb.rowCount === 0) {
+            return next(new ApiError("User not found", 404));
+        }
+
+        const deletedUser = await deleteUserByEmail(userEmail);
+        if (deletedUser.rowCount === 0) {
+            return next(new ApiError("User not found", 404));
+        }
+
+        return res.status(200).json({ message: "Account deleted successfully" });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+
+export {postRegistration, postLogin, deleteAccount}

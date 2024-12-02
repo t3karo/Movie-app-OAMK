@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import SignIn from './components/signIn';
 import SignUp from './components/signUp';
+import DeleteAccount from './components/deleteAccount';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import UserProvider from './context/UserProvider';
 import ErrorPage from './pages/ErrorPage';
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/movies/:id",
     element: <MovieDetail />,
+  },
+  {
+    path: "/delete-account",
+    element: <DeleteAccount />
   }
 ]);
 
