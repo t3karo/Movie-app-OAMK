@@ -11,6 +11,7 @@ import UserProvider from './context/UserProvider';
 import ErrorPage from './pages/ErrorPage';
 import AllMovies from './components/AllMovies';
 import MovieDetail from './components/MovieDetail';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter([
  {
